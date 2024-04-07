@@ -33,12 +33,13 @@ static void Main(string[] args)
 struct Student
 {
     private string name;
+    private string surname;
     private string group;
     private byte[] source;
 
     public string Name
     {
-        get { return name; }
+        get { return name + " " + surname; }
         set
         {
             Console.Write("Введите имя: ");
@@ -48,30 +49,44 @@ struct Student
             else
             {
                 Console.WriteLine("Некорректное имя.");
-                while (nameIsMatch(inputName) != true)
+                while(!nameIsMatch(inputName))
                 {
                     Console.Write("Введите имя: ");
                     inputName = Console.ReadLine();
-
                 }
                 name = inputName;
+            }
+            
+            Console.Write("Введите фамилию: ");
+            string inputSurname = Console.ReadLine();
+            if (nameIsMatch(inputSurname))
+                surname = inputSurname;
+            else
+            {
+                Console.WriteLine("Некорректная фамилия.");
+                while(!nameIsMatch(inputSurname))
+                {
+                    Console.Write("Введите фамилию: ");
+                    inputSurname = Console.ReadLine();
+                }
+                surname = inputSurname;
             }
         }
     }
 
     public string Group
     {
-        get { return group; }
+        get { return group.ToUpper(); }
         set
         {
             Console.Write("Введите группу: ");
-            string inputGroup = Console.ReadLine();
+            string inputGroup = Console.ReadLine().ToLower();
             if (groupIsMatch(inputGroup))
                 group = inputGroup;
             else
             {
                 Console.WriteLine("Некорректная группа.");
-                while (groupIsMatch(inputGroup) != true)
+                while (!groupIsMatch(inputGroup))
                 {
                     Console.Write("Введите группу: ");
                     inputGroup = Console.ReadLine();
@@ -109,7 +124,7 @@ struct Student
     }
     static bool groupIsMatch(string group)
     {
-        string pattern = @"^(1[8-9]|2[0-4])(ИТ|ПТ)([1-6]([0-9])?)$";
+        string pattern = @"^(1[8-9]|2[0-4])(ит|пт)([1-6]([0-9])?)$";
         return Regex.IsMatch(group, pattern);
     }
     static bool nameIsMatch(string name)
